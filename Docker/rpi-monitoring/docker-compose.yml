@@ -1,0 +1,123 @@
+version: "3"
+services:
+  cadvisor:
+    container_name: monitoring-cadvisor
+    devices:
+      - /dev/kmsg
+    ports:
+      - 8080:8080
+    hostname: rpi-cadvisor
+    image: cleanstart/cadvisor:latest
+    networks:
+      - rpimonitor_default
+    privileged: true
+    user: root
+    restart: unless-stopped
+    security_opt:
+      - label=disable
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/machine-id:/etc/machine-id:ro
+    command:
+      - '--housekeeping_interval=10s'
+      - '--max_housekeeping_interval=15s'
+      - '--docker_only=true'
+      - '--event_storage_event_limit=default=0'
+      - '--event_storage_age_limit=default=0'
+      # - '--raw_cgroup_prefix_whitelist=/docker_limit.slice/'
+      # - '--disable_root_cgroup_stats=true'
+      - '--store_container_labels=false'
+      - '--enable_metrics=cpu,cpuLoad,diskIO,memory,network,oom_event,process'
+  pihole-exporter:
+    image: ekofr/pihole-exporter:latest
+    container_name: monitoring-pihole-exporter
+    ports:
+      - 9617:9617
+    environment:
+      PIHOLE_HOSTNAME: 192.168.100.99
+      PIHOLE_PORT: 8089
+      PIHOLE_PASSWORD: 
+      INTERVAL: 30s
+      PORT: 9617
+    networks:
+      - rpimonitor_default
+    restart: unless-stopped      
+
+  grafana:
+    container_name: monitoring-grafana
+    environment:
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_PATHS_CONFIG=/etc/grafana/grafana.ini
+      - GF_PATHS_DATA=/var/lib/grafana
+      - GF_PATHS_HOME=/usr/share/grafana
+      - GF_PATHS_LOGS=/var/log/grafana
+      - GF_PATHS_PLUGINS=/var/lib/grafana/plugins
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+    hostname: rpi-grafana
+    image: grafana/grafana:latest
+    user: 1000:1000
+    networks:
+      - rpimonitor_default
+    ports:
+      - 3030:3000
+    restart: unless-stopped
+    volumes:
+      # to be modified depending on your needs
+      # - ./grafana/data:/var/lib/grafana
+      - /mnt/Data1T/grafana_data/data:/var/lib/grafana
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+      - /mnt/Data1T/grafana_data/provisioning:/etc/grafana/provisioning
+
+  node-exporter:
+    command:
+      - '--collector.processes'
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc|run)($$|/)'
+#      - '--collector.systemd'
+    container_name: monitoring-node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    user: 1000:1000
+    ports:
+      - 9100:9100
+    hostname: rpi-exporter
+    image: prom/node-exporter:latest
+    networks:
+      - rpimonitor_default
+    restart: unless-stopped
+
+  prometheus:
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.size=200GB'
+    container_name: monitoring-prometheus
+    ports:
+      - 9090:9090
+    hostname: rpi-prom
+    image: prom/prometheus:latest
+    user: 1000:1000
+    networks:
+      - rpimonitor_default
+    restart: unless-stopped
+    volumes:
+      # to be modified depending on your needs
+      - /mnt/Data1T/prometheus_data:/prometheus
+      - ./prometheus/config:/etc/prometheus/
+    links:
+      - cadvisor:cadvisor
+      - node-exporter:node-exporter
+      - pihole-exporter:pihole-exporter
+
+networks:
+  rpimonitor_default:
+    external: true

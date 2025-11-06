@@ -1,0 +1,18 @@
+version: "3.5"
+
+services:
+  samba:
+    image: crazymax/samba
+    container_name: samba
+    network_mode: host
+    volumes:
+      - "./data:/data"
+      - "/mnt/Dane4T/data4t:/Dane4T"
+      - "/mnt/Filmy4T/dlna:/Filmy4T"
+      - "/mnt/Data1T/backup_data:/Data1TBackup"
+      - "/mnt/Data1T/dlna/movies:/Data1TFilmy"
+    environment:
+      - "TZ=Europe/Warsaw"
+      - "SAMBA_LOG_LEVEL=0"
+    restart: unless-stopped
+

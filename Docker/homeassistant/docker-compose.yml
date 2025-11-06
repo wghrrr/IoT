@@ -1,0 +1,14 @@
+version: '3'
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - /mnt/Data1T/homeassistant_data/config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /dev/serial/by-id:/dev/serial/by-id
+      - /run/dbus:/run/dbus:ro
+    devices:
+      - /dev/ttyACM0:/dev/ttyACM0
+    restart: unless-stopped
+    network_mode: host

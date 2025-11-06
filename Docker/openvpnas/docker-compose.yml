@@ -1,0 +1,18 @@
+version: "2.1"
+services:
+  openvpn:
+    image: openvpn/openvpn-as
+    container_name: openvpn-as
+    cap_add:
+      - NET_ADMIN
+      - MKNOD
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./openvpnas-data/conf:/openvpn
+    ports:
+      - 943:943
+      - 1194:1194/udp
+    restart: unless-stopped

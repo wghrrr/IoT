@@ -21,7 +21,9 @@
     - [samba](#samba)
     - [sonarr](#sonarr)
     - [transmission](#transmission)
+  - [Architektura](#architektura)
   - [Sieć / Porty](#sieć--porty)
+  - [Instalacja](#instalacja-1)
 
 ## Instalacja
 
@@ -188,7 +190,14 @@ https://www.amazon.pl/alarmowa-maksymalny-podwójny-regulacji-antykradzieżowy/d
 * https://transmissionbt.com  
 * Lekki klient BitTorrent z interfejsem webowym i obsługą automatyzacji pobierania.
 
+## Architektura
+
+// TODO - schemat
 
 ## Sieć / Porty
 
-//TODO
+// TODO - lista portów
+
+## Instalacja
+
+// TODO - opis uruchomienia całości

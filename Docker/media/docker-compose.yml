@@ -1,0 +1,77 @@
+version: "3.9"
+
+networks:
+  media_net:
+    driver: bridge
+
+services:
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Warsaw
+      - USER=admintrans
+      - PASS=torrent1234!
+    volumes:
+      - ./transmission/config:/config
+      - /mnt/Dane4T/data4t/transmission/downloads_docker:/downloads
+      - /mnt/Dane4T/data4t/transmission/watch_docker:/watch
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    networks:
+      - media_net
+    restart: unless-stopped
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Warsaw
+    volumes:
+      - ./sonarr/config:/config
+      - /mnt/Dane4T/data4t/transmission/downloads_docker:/downloads
+      - /mnt/Dane4T/data4t/dlna/dlna_tv_media:/tv
+    ports:
+      - 8989:8989
+    networks:
+      - media_net
+    restart: unless-stopped
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Warsaw
+    volumes:
+      - ./radarr/config:/config
+      - /mnt/Dane4T/data4t/transmission/downloads_docker:/downloads
+      - /mnt/Filmy4T/dlna/movies/media:/movies
+    ports:
+      - 7878:7878
+    networks:
+      - media_net
+    restart: unless-stopped
+    
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Warsaw
+    volumes:
+      - ./prowlarr/config:/config
+    ports:
+      - 9696:9696
+    networks:
+      - media_net
+    restart: unless-stopped
+

@@ -1,0 +1,29 @@
+version: "2.3"
+services:
+  emby:
+    image: lscr.io/linuxserver/emby:latest
+    container_name: embyserver
+    network_mode: host # Enable DLNA and Wake-on-Lan
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Warsaw
+    volumes:
+      - /mnt/Data1T/emby_data:/config # Configuration directory
+      - /mnt/Dane4T/data4t/dlna/dlna_tv:/mnt/tv
+      - /mnt/Dane4T/data4t/dlna/dlna_tv_media:/mnt/tv_media
+      - /mnt/Dane4T/data4t/dlna/dlna_animowane:/mnt/animowane
+      - /mnt/Dane4T/data4t/dlna/dlna_dokumentalne:/mnt/dokumentalne
+      - /mnt/Dane4T/data4t/dlna/dlna_rozrywka:/mnt/rozrywka
+      - /mnt/Dane4T/data4t/dlna/dlna_muzyka:/mnt/muzyka
+      - /mnt/Dane4T/data4t/dlna/dlna_zdjecia:/mnt/zdjecia
+      - /mnt/Filmy4T/dlna/movies:/mnt/filmy
+      - /mnt/Dane4T/data4t/dlna/dlna_zwiastuny:/mnt/zwiastuny
+      - /mnt/Data1T/dlna/movies/kolekcje:/mnt/kolekcje
+    devices:
+      - /dev/vchiq:/dev/vchiq # MMAL/OMX on Raspberry Pi
+      - /dev/dri:/dev/dri
+    privileged: true
+    group_add:
+      - video
+    restart: unless-stopped

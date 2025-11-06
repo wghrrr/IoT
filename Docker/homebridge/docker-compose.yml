@@ -1,0 +1,14 @@
+version: '2'
+services:
+  homebridge:
+    image: homebridge/homebridge:latest
+    container_name: homebridge
+    restart: always
+    network_mode: host
+    environment:
+      - HOMEBRIDGE_CONFIG_UI_PORT=8581
+    volumes:
+      - homebridge:/homebridge
+volumes:
+  homebridge:
+
