@@ -71,73 +71,123 @@ https://www.amazon.pl/alarmowa-maksymalny-podwójny-regulacji-antykradzieżowy/d
 
 ## Usługi / Docker
 
-### embyserver	
-* lscr.io/linuxserver/emby:latest
-* https://emby.media
+### embyserver
+* lscr.io/linuxserver/emby:latest  
+* https://emby.media  
+* Serwer multimedialny umożliwiający strumieniowanie filmów, seriali, muzyki i zdjęć na różne urządzenia, z automatycznym rozpoznawaniem metadanych i transkodowaniem.
 
-### homeassistant	
-* ghcr.io/home-assistant/home-assistant:stable
-* https://www.home-assistant.io
+---
 
-### homebridge	
-* homebridge/homebridge:latest
-* https://homebridge.io
+### homeassistant
+* ghcr.io/home-assistant/home-assistant:stable  
+* https://www.home-assistant.io  
+* Platforma do automatyzacji inteligentnego domu obsługująca tysiące urządzeń IoT, integracji i scenariuszy automatyzacji.
 
-### monitoring-cadvisor	
-* cleanstart/cadvisor:latest
-* https://github.com/google/cadvisor
+---
+
+### homebridge
+* homebridge/homebridge:latest  
+* https://homebridge.io  
+* Lekki serwer pozwalający na integrację urządzeń nieobsługujących Apple HomeKit z ekosystemem Apple.
+
+---
+
+### monitoring-cadvisor
+* cleanstart/cadvisor:latest  
+* https://github.com/google/cadvisor  
+* Narzędzie Google do monitorowania wykorzystania zasobów kontenerów Docker w czasie rzeczywistym (CPU, RAM, sieć, dysk).
+
+---
 
 ### monitoring-grafana
-* grafana/grafana:latest
-* https://grafana.com
+* grafana/grafana:latest  
+* https://grafana.com  
+* System wizualizacji danych i metryk z wielu źródeł, umożliwiający tworzenie interaktywnych dashboardów monitorujących.
+
+---
 
 ### monitoring-node-exporter
-* prom/node-exporter:latest
-* https://github.com/prometheus/node_exporter
+* prom/node-exporter:latest  
+* https://github.com/prometheus/node_exporter  
+* Eksporter metryk systemowych dla Prometheusa – monitoruje wykorzystanie CPU, pamięci, dysku i sieci hosta.
+
+---
 
 ### monitoring-pihole-exporter
-* ekofr/pihole-exporter:latest
-* https://github.com/eko/pihole-exporter
+* ekofr/pihole-exporter:latest  
+* https://github.com/eko/pihole-exporter  
+* Eksporter statystyk Pi-hole dla Prometheusa – umożliwia zbieranie danych o zapytaniach DNS, blokowanych domenach i wydajności.
+
+---
 
 ### monitoring-prometheus
-* prom/prometheus:latest
-* https://prometheus.io
+* prom/prometheus:latest  
+* https://prometheus.io  
+* System monitoringu i alertowania zbierający metryki z eksportowanych źródeł, idealny do integracji z Grafaną.
+
+---
 
 ### openvpn-as
-* openvpn/openvpn-as
-* https://openvpn.net
+* openvpn/openvpn-as  
+* https://openvpn.net  
+* Serwer VPN z interfejsem administracyjnym, zapewniający bezpieczny zdalny dostęp do sieci i zasobów.
+
+---
 
 ### pihole
-* pihole/pihole:latest
-* https://pi-hole.net
+* pihole/pihole:latest  
+* https://pi-hole.net  
+* System DNS sinkhole blokujący reklamy, trackery i złośliwe domeny na poziomie sieci lokalnej.
+
+---
 
 ### portainer
-* portainer/portainer-ce:latest
-* https://www.portainer.io
+* portainer/portainer-ce:latest  
+* https://www.portainer.io  
+* Lekki panel WWW do zarządzania kontenerami Docker, Docker Swarm i Kubernetes w sposób wizualny.
+
+---
 
 ### prowlarr
-* lscr.io/linuxserver/prowlarr:latest
-* https://prowlarr.com
+* lscr.io/linuxserver/prowlarr:latest  
+* https://prowlarr.com  
+* Menedżer indeksatorów dla aplikacji takich jak Sonarr, Radarr czy Lidarr – ułatwia zarządzanie źródłami treści.
+
+---
 
 ### pyload-ng
-* lscr.io/linuxserver/pyload-ng:latest
-* https://pypi.org/project/pyload-ng/
+* lscr.io/linuxserver/pyload-ng:latest  
+* https://pypi.org/project/pyload-ng/  
+* Menedżer pobierania plików z obsługą hostów, kont premium i kolejkowania zadań, dostępny przez interfejs webowy.
+
+---
 
 ### radarr
-* lscr.io/linuxserver/radarr:latest
-* https://radarr.video
+* lscr.io/linuxserver/radarr:latest  
+* https://radarr.video  
+* Automatyzuje pobieranie i organizowanie filmów z różnych źródeł przy użyciu trackerów i usług indeksujących.
+
+---
 
 ### samba
-* crazymax/samba
-* https://www.samba.org
+* crazymax/samba  
+* https://www.samba.org  
+* Implementacja protokołu SMB/CIFS, umożliwiająca współdzielenie plików i drukarek między systemami Linux i Windows.
+
+---
 
 ### sonarr
-* lscr.io/linuxserver/sonarr:latest
-* https://sonarr.tv
+* lscr.io/linuxserver/sonarr:latest  
+* https://sonarr.tv  
+* Aplikacja do automatycznego wyszukiwania, pobierania i organizowania seriali telewizyjnych z różnych źródeł.
+
+---
 
 ### transmission
-* lscr.io/linuxserver/transmission:latest
-* https://transmissionbt.com
+* lscr.io/linuxserver/transmission:latest  
+* https://transmissionbt.com  
+* Lekki klient BitTorrent z interfejsem webowym i obsługą automatyzacji pobierania.
+
 
 ## Sieć / Porty
 
