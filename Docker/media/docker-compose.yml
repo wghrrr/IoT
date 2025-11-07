@@ -12,8 +12,8 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Warsaw
-      - USER=admintrans
-      - PASS=torrent1234!
+      - USER=
+      - PASS=
     volumes:
       - ./transmission/config:/config
       - /mnt/Dane4T/data4t/transmission/downloads_docker:/downloads
