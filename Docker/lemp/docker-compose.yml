@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+
+    php:
+        container_name: lemp_php
+        build:
+            dockerfile: php-dockerfile
+            context: .
+        volumes:
+            - ./html:/usr/share/nginx/html
+        depends_on:
+            - mariadb
+
+    nginx:
+        image: nginx:latest
+        restart: unless-stopped
+        ports:
+            - 13524:80
+        links:
+            - php
+        volumes:
+            - ./html:/usr/share/nginx/html
+            - ./config/nginx.conf:/etc/nginx/nginx.conf
+            - ./config/conf.d:/etc/nginx/conf.d
+        depends_on:
+            - php
+
+    mariadb:
+        image: mariadb
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+        volumes:
+            - /mnt/Data1T/mariadb_data:/var/lib/mysql
+
+    adminer:
+        image: adminer
+        restart: unless-stopped
+        ports:
+            - 8010:8080

@@ -12,7 +12,7 @@ services:
       - "8090:443/tcp"
     environment:
       TZ: 'Europe/Warsaw'
-      FTLCONF_webserver_api_password: ''
+      FTLCONF_webserver_api_password: '${FTLCONF_webserver_api_password}'
       # FTLCONF_webserver_port: '8089'
       # FTLCONF_dns_listeningMOde: 'all'
     volumes:

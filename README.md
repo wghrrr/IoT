@@ -7,12 +7,18 @@
     - [embyserver](#embyserver)
     - [homeassistant](#homeassistant)
     - [homebridge](#homebridge)
+    - [immich](#immich)
+    - [immich-folder-album-creator](#immich-folder-album-creator)
+    - [lemp](#lemp)
     - [monitoring-cadvisor](#monitoring-cadvisor)
     - [monitoring-grafana](#monitoring-grafana)
     - [monitoring-node-exporter](#monitoring-node-exporter)
     - [monitoring-pihole-exporter](#monitoring-pihole-exporter)
     - [monitoring-prometheus](#monitoring-prometheus)
+    - [ntopng](#ntopng)
     - [openvpn-as](#openvpn-as)
+    - [openwebrx](#openwebrx)
+    - [owa](#owa)
     - [pihole](#pihole)
     - [portainer](#portainer)
     - [prowlarr](#prowlarr)
@@ -94,6 +100,26 @@ https://www.amazon.pl/alarmowa-maksymalny-podwójny-regulacji-antykradzieżowy/d
 
 ---
 
+### immich
+* ghcr.io/immich-app/immich-server  
+* https://immich.app  
+* Samohostowane rozwiązanie do backupu i przeglądania zdjęć oraz filmów, z automatycznym rozpoznawaniem twarzy i obiektów.
+
+---
+
+### immich-folder-album-creator
+* salvoxia/immich-folder-album-creator  
+* https://github.com/Salvoxia/immich-folder-album-creator  
+* Narzędzie tworzące w Immich albumy na podstawie struktury katalogów z zewnętrznej biblioteki zdjęć.
+
+---
+
+### lemp
+* nginx + php + mariadb + adminer  
+* Stos LEMP (Linux, Nginx, MariaDB, PHP) hostujący dodatkowe aplikacje webowe (m.in. OWA) wraz z panelem administracyjnym bazy danych.
+
+---
+
 ### monitoring-cadvisor
 * cleanstart/cadvisor:latest  
 * https://github.com/google/cadvisor  
@@ -129,10 +155,31 @@ https://www.amazon.pl/alarmowa-maksymalny-podwójny-regulacji-antykradzieżowy/d
 
 ---
 
+### ntopng
+* ntop/ntopng_arm64.dev  
+* https://www.ntop.org/products/traffic-analysis/ntop  
+* Narzędzie do monitorowania i analizy ruchu sieciowego w czasie rzeczywistym, wspierane przez bazę ClickHouse.
+
+---
+
 ### openvpn-as
 * openvpn/openvpn-as  
 * https://openvpn.net  
 * Serwer VPN z interfejsem administracyjnym, zapewniający bezpieczny zdalny dostęp do sieci i zasobów.
+
+---
+
+### openwebrx
+* jketterl/openwebrx  
+* https://www.openwebrx.de  
+* Odbiornik SDR (Software Defined Radio) z interfejsem webowym, umożliwiający odbiór i udostępnianie fal radiowych przez przeglądarkę.
+
+---
+
+### owa
+* vladk1m0/docker-owa (Open Web Analytics)  
+* https://www.openwebanalytics.com  
+* Samohostowane narzędzie do analityki ruchu na stronach WWW, alternatywa dla Google Analytics.
 
 ---
 

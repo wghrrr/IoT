@@ -1,0 +1,12 @@
+version: "3"
+services:
+  openwebrx:
+    image: jketterl/openwebrx:latest
+    volumes:
+      - ./settings:/var/lib/openwebrx
+      - ./config:/etc/openwebrx
+    ports:
+      - 8073:8073
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    restart: unless-stopped

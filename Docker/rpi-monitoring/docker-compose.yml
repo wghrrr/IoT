@@ -41,7 +41,7 @@ services:
     environment:
       PIHOLE_HOSTNAME: 192.168.100.99
       PIHOLE_PORT: 8089
-      PIHOLE_PASSWORD: 
+      PIHOLE_PASSWORD: ${PIHOLE_PASSWORD}
       INTERVAL: 30s
       PORT: 9617
     networks:
