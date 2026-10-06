@@ -1,0 +1,15 @@
+services:
+  openvpn-hwdsl2:
+    image: hwdsl2/openvpn-server
+    container_name: openvpn-hwdsl2
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    # host - kontener widzi LAN hosta bezposrednio,
+    # a wbudowany MASQUERADE wypuszcza ruch VPN pod adresem hosta
+    network_mode: host
+    volumes:
+      - ${DATA1T_DIR:?}/hwdsl2_openvpn_data:/etc/openvpn
+      - ./vpn.env:/vpn.env:ro

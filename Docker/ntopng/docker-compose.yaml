@@ -1,18 +1,25 @@
-version: '3'
 services:
   ntopng:
     image: ntop/ntopng_arm64.dev
     hostname: ntop
     container_name: ntop
     restart: unless-stopped
+    # host - ntopng musi widziec interfejsy sieciowe hosta
     network_mode: host
-    # Port mapping (disable network_mode: host)
-    # ports:
-    #   - 3030:3030
     volumes:
-      - /etc/ntopng.license:/etc/ntopng.license:ro
       - ntopng_redis:/var/lib/redis
-    command: [ '-i', 'tcp://*:5556c', '-F', 'clickhouse', '--disable-login' ]
+      # tylko z licencja - plik musi istniec, inaczej Docker utworzy katalog na karcie SD
+      # - /etc/ntopng.license:/etc/ntopng.license:ro
+    command:
+      # kolektor (nprobe) tylko lokalnie, nie na calym LAN
+      - '-i'
+      - 'tcp://127.0.0.1:5556c'
+      # panel WWW
+      - '-w'
+      - '3000'
+      # clickhouse na lokalnych, unikalnych portach (tcp,mysql) - bez kolizji z HA 8123 i Portainerem 9000
+      - '-F'
+      - 'clickhouse;127.0.0.1@19000,19004;ntopng;ntopng;${NTOPNG_CLICKHOUSE_PASSWORD:?}'
     depends_on:
       - clickhouse
 
@@ -21,7 +28,18 @@ services:
     hostname: clickhouse
     container_name: clickhouse
     restart: unless-stopped
-    network_mode: host
+    # siec bridge zamiast host - porty tylko na 127.0.0.1, niedostepne z LAN
+    ports:
+      - 127.0.0.1:19000:9000
+      - 127.0.0.1:19004:9004
+    environment:
+      CLICKHOUSE_USER: ntopng
+      CLICKHOUSE_PASSWORD: ${NTOPNG_CLICKHOUSE_PASSWORD:?}
+      CLICKHOUSE_DB: ntopng
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
     volumes:
       - clickhouse_data:/var/lib/clickhouse
       - clickhouse_logs:/var/log/clickhouse-server

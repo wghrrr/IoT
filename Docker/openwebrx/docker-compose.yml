@@ -1,10 +1,9 @@
-version: "3"
 services:
   openwebrx:
     image: jketterl/openwebrx:latest
     volumes:
-      - ./settings:/var/lib/openwebrx
-      - ./config:/etc/openwebrx
+      - ${DATA1T_DIR:?}/openwebrx_data/settings:/var/lib/openwebrx
+      - ${DATA1T_DIR:?}/openwebrx_data/config:/etc/openwebrx
     ports:
       - 8073:8073
     devices:

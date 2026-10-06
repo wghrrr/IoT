@@ -1,4 +1,3 @@
-version: "2.3"
 services:
   emby:
     image: lscr.io/linuxserver/emby:latest
@@ -9,21 +8,21 @@ services:
       - PGID=1000
       - TZ=Europe/Warsaw
     volumes:
-      - /mnt/Data1T/emby_data:/config # Configuration directory
-      - /mnt/Dane4T/data4t/dlna/dlna_tv:/mnt/tv
-      - /mnt/Dane4T/data4t/dlna/dlna_tv_media:/mnt/tv_media
-      - /mnt/Dane4T/data4t/dlna/dlna_animowane:/mnt/animowane
-      - /mnt/Dane4T/data4t/dlna/dlna_dokumentalne:/mnt/dokumentalne
-      - /mnt/Dane4T/data4t/dlna/dlna_rozrywka:/mnt/rozrywka
-      - /mnt/Dane4T/data4t/dlna/dlna_muzyka:/mnt/muzyka
-      - /mnt/Dane4T/data4t/dlna/dlna_zdjecia:/mnt/zdjecia
-      - /mnt/Filmy4T/dlna/movies:/mnt/filmy
-      - /mnt/Dane4T/data4t/dlna/dlna_zwiastuny:/mnt/zwiastuny
-      - /mnt/Data1T/dlna/movies/kolekcje:/mnt/kolekcje
-    devices:
-      - /dev/vchiq:/dev/vchiq # MMAL/OMX on Raspberry Pi
-      - /dev/dri:/dev/dri
-    privileged: true
-    group_add:
-      - video
+      - ${DATA1T_DIR:?}/emby_data:/config # Configuration directory
+      - ${DANE4T_DIR:?}/data4t/dlna/dlna_tv:/mnt/tv
+      - ${DANE4T_DIR:?}/data4t/dlna/dlna_tv_media:/mnt/tv_media
+      - ${DANE4T_DIR:?}/data4t/dlna/dlna_animowane:/mnt/animowane
+      - ${DANE4T_DIR:?}/data4t/dlna/dlna_dokumentalne:/mnt/dokumentalne
+      - ${DANE4T_DIR:?}/data4t/dlna/dlna_rozrywka:/mnt/rozrywka
+      - ${DANE4T_DIR:?}/data4t/dlna/dlna_muzyka:/mnt/muzyka
+      - ${DANE4T_DIR:?}/data4t/dlna/dlna_zdjecia:/mnt/zdjecia
+      - ${FILMY4T_DIR:?}/dlna/movies:/mnt/filmy
+      - ${DANE4T_DIR:?}/data4t/dlna/dlna_zwiastuny:/mnt/zwiastuny
+      - ${DATA1T_DIR:?}/dlna/movies/kolekcje:/mnt/kolekcje
+    # bez privileged i urzadzen GPU - akceleracja sprzetowa w Emby wymaga Emby Premiere (brak),
+    # transkodowanie idzie programowo na CPU. Z Premiere: dodac devices /dev/dri i /dev/video10-12
+    # oraz group_add: video (bez privileged).
+    # limity: transkodowanie nie moze zaglodzic HA i reszty uslug na 4 GB RAM
+    mem_limit: 1g
+    cpus: 3
     restart: unless-stopped

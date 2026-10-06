@@ -8,9 +8,9 @@ services:
     user: 1001:1001
     volumes:
      - ./immich_api_key.secret:/immich_api_key.secret:ro
-     - /mnt/Dane4T/data4t/immich_zdjecia:/external_libs/photos
+     - ${DANE4T_DIR:?}/data4t/immich_zdjecia:/external_libs/photos
     environment:
-      API_URL: http://192.168.100.99:2283/api
+      API_URL: ${IMMICH_API_URL}
       API_KEY_FILE: /immich_api_key.secret
       ROOT_PATH: /mnt/photos
       ALBUM_LEVELS: "-2"

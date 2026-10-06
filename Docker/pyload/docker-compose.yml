@@ -1,4 +1,3 @@
-version: "2.1"
 services:
   pyload-ng:
     image: lscr.io/linuxserver/pyload-ng:latest
@@ -7,9 +6,9 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - ./config:/config
-      - /mnt/Dane4T/data4t/pyload:/downloads
+      - ${DATA1T_DIR:?}/pyload_data/config:/config
+      - ${DANE4T_DIR:?}/data4t/pyload:/downloads
     ports:
       - 8000:8000
 #      - 9666:9666 #optional
-    restart: unless-stopped
+    restart: "no"

@@ -1,5 +1,3 @@
-version: "3.9"
-
 networks:
   media_net:
     driver: bridge
@@ -12,12 +10,12 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Warsaw
-      - USER=${TRANSMISSION_USER}
+      - USER=${TRANSMISSION_USER:?}
       - PASS=${TRANSMISSION_PASS}
     volumes:
-      - ./transmission/config:/config
-      - /mnt/Dane4T/data4t/transmission/downloads_docker:/downloads
-      - /mnt/Dane4T/data4t/transmission/watch_docker:/watch
+      - ${DATA1T_DIR:?}/media_data/transmission_data/config:/config
+      - ${DANE4T_DIR:?}/data4t/transmission/downloads_docker:/downloads
+      - ${DANE4T_DIR:?}/data4t/transmission/watch_docker:/watch
     ports:
       - 9091:9091
       - 51413:51413
@@ -34,9 +32,9 @@ services:
       - PGID=1000
       - TZ=Europe/Warsaw
     volumes:
-      - ./sonarr/config:/config
-      - /mnt/Dane4T/data4t/transmission/downloads_docker:/downloads
-      - /mnt/Dane4T/data4t/dlna/dlna_tv_media:/tv
+      - ${DATA1T_DIR:?}/media_data/sonarr_data/config:/config
+      - ${DANE4T_DIR:?}/data4t/transmission/downloads_docker:/downloads
+      - ${DANE4T_DIR:?}/data4t/dlna/dlna_tv_media:/tv
     ports:
       - 8989:8989
     networks:
@@ -51,15 +49,15 @@ services:
       - PGID=1000
       - TZ=Europe/Warsaw
     volumes:
-      - ./radarr/config:/config
-      - /mnt/Dane4T/data4t/transmission/downloads_docker:/downloads
-      - /mnt/Filmy4T/dlna/movies/media:/movies
+      - ${DATA1T_DIR:?}/media_data/radarr_data/config:/config
+      - ${DANE4T_DIR:?}/data4t/transmission/downloads_docker:/downloads
+      - ${FILMY4T_DIR:?}/dlna/movies/media:/movies
     ports:
       - 7878:7878
     networks:
       - media_net
     restart: unless-stopped
-    
+
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
@@ -68,10 +66,9 @@ services:
       - PGID=1000
       - TZ=Europe/Warsaw
     volumes:
-      - ./prowlarr/config:/config
+      - ${DATA1T_DIR:?}/media_data/prowlarr_data/config:/config
     ports:
       - 9696:9696
     networks:
       - media_net
     restart: unless-stopped
-

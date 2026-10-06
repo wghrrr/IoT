@@ -1,0 +1,26 @@
+# Kopiuj do ${DATA1T_DIR}/rpi-monitoring_data/prometheus/config/prometheus.yml
+# Sekrety leza w osobnych plikach obok (hass_token, prom_password) - nie w tym pliku i nie w repo.
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['node-exporter:9100', 'pihole-exporter:9617', 'cadvisor:8080']
+
+  # sam Prometheus - od wlaczenia web-config.yml wymaga logowania (basic auth)
+  - job_name: 'prometheus-self'
+    scrape_interval: 15s
+    basic_auth:
+      username: admin
+      password_file: /etc/prometheus/prom_password
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: "hass"
+    scrape_interval: 15s
+    metrics_path: /api/prometheus
+    # Long-Lived Access Token z HA (Profil -> Bezpieczenstwo), sam token w jednej linii
+    authorization:
+      credentials_file: /etc/prometheus/hass_token
+    static_configs:
+      # HA dziala w network_mode: host - host.docker.internal wskazuje hosta (extra_hosts w compose)
+      - targets: ['host.docker.internal:8123']

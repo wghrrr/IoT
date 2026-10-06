@@ -1,5 +1,3 @@
-version: "3"
-
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
   pihole:
@@ -12,11 +10,10 @@ services:
       - "8090:443/tcp"
     environment:
       TZ: 'Europe/Warsaw'
-      FTLCONF_webserver_api_password: '${FTLCONF_webserver_api_password}'
+      FTLCONF_webserver_api_password: '${PIHOLE_WEBPASSWORD}'
       # FTLCONF_webserver_port: '8089'
       # FTLCONF_dns_listeningMOde: 'all'
     volumes:
-      - './etc-pihole:/etc/pihole'
-      - './etc-dnsmasq.d:/etc/dnsmasq.d'
+      - '${DATA1T_DIR:?}/pihole_data/etc-pihole:/etc/pihole'
+      - '${DATA1T_DIR:?}/pihole_data/etc-dnsmasq.d:/etc/dnsmasq.d'
     restart: unless-stopped
-

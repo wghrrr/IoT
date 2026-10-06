@@ -2,3 +2,20 @@
 **/.env
 !**/.env.example
 /Pliki in/
+**/vpn.env
+**/*.secret
+**/*.ovpn
+**/hass_token
+**/prom_password
+**/prometheus.key
+
+# lokalna dokumentacja, nie do repo
+/Docker/CHANGELOG.md
+/Docker/plan-reinstalacja-rpi.md
+/rpi-todo.md
+
+# Claude Code - lokalne, nie do repo
+CLAUDE.md
+CLAUDE.local.md
+**/CLAUDE.md
+.claude/

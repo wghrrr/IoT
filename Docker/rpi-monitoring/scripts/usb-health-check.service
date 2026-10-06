@@ -1,0 +1,6 @@
+[Unit]
+Description=USB/Zigbee health check for node-exporter textfile collector
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/usb-health-check.sh

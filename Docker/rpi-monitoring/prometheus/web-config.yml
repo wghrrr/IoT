@@ -1,0 +1,5 @@
+# Kopiuj do ${DATA1T_DIR}/rpi-monitoring_data/prometheus/config/web-config.yml
+# Hash hasla: htpasswd -niBC 12 "" (pakiet apache2-utils). HTTPS mozna dodac pozniej sekcja tls_server_config (cert_file, key_file).
+basic_auth_users:
+  # uzytkownik: HASH bcrypt hasla (nie samo haslo) - wynik: htpasswd -niBC 12 ""
+  admin: <BCRYPT_HASH>

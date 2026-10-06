@@ -1,0 +1,19 @@
+# Panel WWW do zarzadzania Dockerem - tylko HTTPS (9443, wbudowany certyfikat samopodpisany).
+# Pelny dostep do docker.sock = w praktyce root na hoscie, dlatego tylko w LAN i z mocnym haslem.
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    ports:
+      - 9443:9443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+volumes:
+  portainer_data:
+    # istniejacy wolumen (tworzony wczesniej przez "docker run -v portainer_data:/data"),
+    # fizycznie w data-root Dockera, czyli na dysku, nie na karcie SD.
+    # Na czystej instalacji najpierw: docker volume create portainer_data
+    external: true
