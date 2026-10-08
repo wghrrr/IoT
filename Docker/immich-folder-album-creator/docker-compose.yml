@@ -4,7 +4,7 @@ services:
   immich-folder-album-creator:
     container_name: immich_folder_album_creator
     image: salvoxia/immich-folder-album-creator:latest
-    restart: no
+    restart: "no"
     user: 1001:1001
     volumes:
      - ./immich_api_key.secret:/immich_api_key.secret:ro
@@ -17,4 +17,4 @@ services:
       UNATTENDED: "1"
       SYNC_MODE: "2"
      # CRON_EXPRESSION: "0 * * * *"
-      TZ: Europe/Berlin
+      TZ: Europe/Warsaw

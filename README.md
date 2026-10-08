@@ -87,7 +87,7 @@ Każda usługa ma katalog `Docker/<katalog>/` z plikiem `docker-compose.yml`. Ws
 | [dozzle](#dozzle) | `dozzle` | aktywna |
 | [embyserver](#embyserver) | `emby` | aktywna |
 | [homeassistant](#homeassistant) | `homeassistant` | aktywna |
-| [immich](#immich) | `immich` | uruchamiana ręcznie |
+| [immich](#immich) | `immich` | aktywna |
 | [immich-folder-album-creator](#immich-folder-album-creator) | `immich-folder-album-creator` | uruchamiana ręcznie |
 | [lemp](#lemp) | `lemp` | zatrzymana |
 | [monitoring-cadvisor](#monitoring-cadvisor) | `rpi-monitoring` | aktywna |
@@ -277,6 +277,7 @@ Skrypty z katalogu `Docker/` (na RPi leżą w `~/Docker`) oraz narzędzia diagno
 | [Docker/backup-configs.sh](Docker/backup-configs.sh) | Pakuje do zipa konfigurację usług (bez dużych danych) |
 | [Docker/rpi-monitoring/scripts/](Docker/rpi-monitoring/scripts/) | Usługa systemd z timerem, która sprawdza błędy USB i wystawia metryki dla node-exportera |
 | [scripts/rpi-health.sh](scripts/rpi-health.sh) | Szybki raport stanu systemu: load, RAM, swap, dyski, kontenery |
+| [scripts/rpi-daily.sh](scripts/rpi-daily.sh) | Codzienny przegląd (tylko odczyt): USB/xHCI, mounty, rfkill, błędy kernela, SMART, miejsce, kontenery (OOM, restarty), karta SD, maskowane logi HA; na końcu podsumowanie problemów |
 | [scripts/dump-docker-configs.sh](scripts/dump-docker-configs.sh) | Wypisuje wszystkie pliki `docker-compose` z `~/Docker` |
 | [scripts/list-data1t.sh](scripts/list-data1t.sh) | Przegląd zawartości dysku danych: rozmiary, struktura i uprawnienia |
 | [scripts/inventory.sh](scripts/inventory.sh) | Spisuje stan hosta przed reinstalacją OS (tylko odczyt). Wynik zawiera dane wrażliwe, nie publikuj go |

@@ -1,15 +1,19 @@
 name: immich
 
-# restart: "no" celowo we wszystkich kontenerach - immich jest zasobozerny,
-# po restarcie RPi uruchamiany recznie: cd ~/Docker/immich && docker compose up -d
+# Dziala stale (od 2026-10-07). Na RPi 4 GB immich ma ustepowac HA i reszcie:
+# - cpuset "0,1": tylko 2 rdzenie z 4, rdzenie 2-3 zawsze wolne dla reszty;
+# - cpu_shares 512: przy rywalizacji o rdzenie 0-1 dostaje polowe tego co inni;
+# - mem_limit: przy skoku pamieci (miniatury, wideo) OOM zabija immich_server,
+#   a nie wypycha HA do swapu; restart unless-stopped podnosi go z powrotem.
+# Brak kontenera machine-learning (za ciezki dla RPi) - ML wylaczone w panelu admina.
 
 services:
   immich-server:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     cpuset: "0,1"
-    mem_limit: 1500m
-    mem_reservation: 512m
+    cpu_shares: 512
+    mem_limit: 1200m
     volumes:
       # Nie edytowac tej linii - sciezke zmienia sie przez UPLOAD_LOCATION w .env
       - ${UPLOAD_LOCATION:?}:/data
@@ -24,33 +28,35 @@ services:
         condition: service_healthy
       database:
         condition: service_healthy
-    restart: "no"
-    healthcheck:
-      disable: false
+    restart: unless-stopped
 
   redis:
     container_name: immich_redis
     image: docker.io/valkey/valkey:9
     cpuset: "0,1"
+    cpu_shares: 512
+    mem_limit: 128m
     healthcheck:
       test: redis-cli ping | grep -q PONG || exit 1
-    restart: "no"
+    restart: unless-stopped
 
   database:
     container_name: immich_postgres
     image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
     cpuset: "0,1"
+    cpu_shares: 512
+    mem_limit: 512m
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_DB: ${DB_DATABASE_NAME}
       POSTGRES_INITDB_ARGS: '--data-checksums'
-      # Jesli baza NIE lezy na SSD tylko na wolniejszym nosniku, odkomentowac:
+      # baza lezy na HDD (Dane4T), nie na SSD - Postgres dostraja do tego ustawienia
       DB_STORAGE_TYPE: 'HDD'
     volumes:
       # Nie edytowac tej linii - sciezke zmienia sie przez DB_DATA_LOCATION w .env
       - ${DB_DATA_LOCATION:?}:/var/lib/postgresql/data
     shm_size: 128mb
-    restart: "no"
-    healthcheck:
-      disable: false
+    # czas na czyste zamkniecie bazy przy restarcie RPi (domyslne 10 s bywa za malo na HDD)
+    stop_grace_period: 1m
+    restart: unless-stopped

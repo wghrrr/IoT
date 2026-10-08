@@ -4,6 +4,8 @@ services:
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
+    mem_limit: 192m
+    cpus: 0.5
     restart: unless-stopped
     ports:
       - 9443:9443
