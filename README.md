@@ -278,6 +278,7 @@ Skrypty z katalogu `Docker/` (na RPi leżą w `~/Docker`) oraz narzędzia diagno
 | [Docker/rpi-monitoring/scripts/](Docker/rpi-monitoring/scripts/) | Usługa systemd z timerem, która sprawdza błędy USB i wystawia metryki dla node-exportera |
 | [scripts/rpi-health.sh](scripts/rpi-health.sh) | Szybki raport stanu systemu: load, RAM, swap, dyski, kontenery |
 | [scripts/rpi-daily.sh](scripts/rpi-daily.sh) | Codzienny przegląd (tylko odczyt): USB/xHCI, mounty, rfkill, błędy kernela, SMART, miejsce, kontenery (OOM, restarty), karta SD, maskowane logi HA; na końcu podsumowanie problemów |
+| [scripts/disk-usage.sh](scripts/disk-usage.sh) | Co zajmuje miejsce na dyskach danych (tylko odczyt): katalogi, typy plików, rok modyfikacji, duże pliki, śmieci, duplikaty, usunięte, ale otwarte pliki, Docker; na końcu podsumowanie |
 | [scripts/dump-docker-configs.sh](scripts/dump-docker-configs.sh) | Wypisuje wszystkie pliki `docker-compose` z `~/Docker` |
 | [scripts/list-data1t.sh](scripts/list-data1t.sh) | Przegląd zawartości dysku danych: rozmiary, struktura i uprawnienia |
 | [scripts/inventory.sh](scripts/inventory.sh) | Spisuje stan hosta przed reinstalacją OS (tylko odczyt). Wynik zawiera dane wrażliwe, nie publikuj go |

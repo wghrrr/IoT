@@ -59,11 +59,11 @@ INCLUDE_PATHS=(
   "$DATA1T_DIR/grafana_data/provisioning"
   "$DATA1T_DIR/rpi-monitoring_data"
 
-  # Home Assistant - tylko YAMLe configu, NIE home-assistant_v2.db (baza
-  # historii - dane, moze byc duza) - sprawdz i dopisz inne pliki .yaml,
-  # jesli je macie (np. scripts.yaml, scenes.yaml, secrets.yaml)
-  "$DATA1T_DIR/homeassistant_data/config/configuration.yaml"
-  "$DATA1T_DIR/homeassistant_data/config/automations.yaml"
+  # Home Assistant - caly config (YAMLe, .storage z integracjami/ZHA/
+  # rejestrami encji/dashboardami, zigbee.db, custom_components), bez bazy
+  # historii i pochodnych (wykluczenia nizej). Bez .storage przywrocenie
+  # po nieudanej aktualizacji nie jest mozliwe.
+  "$DATA1T_DIR/homeassistant_data/config"
 
   # *arr apps - config.xml (bez baz sqlite kolekcji - da sie odbudowac
   # ponownym skanem biblioteki)
@@ -80,6 +80,14 @@ INCLUDE_PATHS=(
 EXCLUDE_PATTERNS=(
   "*/etc-pihole/gravity.db"      # skompilowana baza blocklist - regenerowalna przez 'pihole -g'
   "*/etc-pihole/pihole-FTL.db"   # historia zapytan DNS (logi + prywatnosc), nie config
+  "*/homeassistant_data/config/home-assistant_v2.db*"  # historia recordera (ok. 0,5 GB), dane
+  "*/homeassistant_data/config/backups/*"              # kopie z UI HA, duze
+  "*/homeassistant_data/config/deps/*"                 # pakiety pip, HA instaluje je sam
+  "*/homeassistant_data/config/.cache/*"
+  "*/homeassistant_data/config/tts/*"
+  "*/homeassistant_data/config/home-assistant.log*"
+  "*/homeassistant_data/config/callgrind.out.*"
+  "*/homeassistant_data/config/profile.*.cprof"
 )
 
 # ===== KONIEC KONFIGURACJI =====
