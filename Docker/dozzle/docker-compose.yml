@@ -11,4 +11,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ${DATA1T_DIR:?}/dozzle_data:/data
+    # 2026-11-08 (20 dni): teraz 18 MiB (procesy 10), szczyt 81 MiB z cache
+    mem_limit: 128m
+    cpus: 0.3
     restart: unless-stopped

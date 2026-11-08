@@ -1,0 +1,29 @@
+# Bramka Signal (signal-cli-rest-api): powiadomienia z Home Assistant, pozniej
+# pytania i odpowiedzi asystenta AI (osobne, prywatne repo). Konto bota na
+# osobnym numerze. https://github.com/bbernhard/signal-cli-rest-api
+#
+# API bez logowania, dlatego port tylko na 127.0.0.1: korzysta z niego HA
+# (network_mode: host). Kontenery asystenta dolacza sie pozniej przez siec Dockera.
+# W katalogu danych sa klucze konta Signal - traktowac jak sekret (backup tak, repo nie).
+services:
+  signal:
+    container_name: signal
+    image: bbernhard/signal-cli-rest-api:latest
+    environment:
+      TZ: 'Europe/Warsaw'
+      # normal - do rejestracji numeru; potem json-rpc-native (stale dzialajacy
+      # demon, szybki, oszczedny w RAM). Gdy native sprawia problemy: json-rpc (JVM, wiecej RAM).
+      MODE: ${SIGNAL_MODE:-normal}
+      # on-start: demon stale odbiera wiadomosci (potwierdzenia, klucze), czego
+      # wymaga protokol Signal. Bez nasluchujacego klienta (websocket) tresc
+      # przychodzaca przepada - dla powiadomien z HA bez znaczenia. Gdy asystent
+      # bedzie czytal odpowiedzi: manual + stale podlaczony klient.
+      JSON_RPC_RECEIVE_MODE: on-start
+      LOG_LEVEL: warn
+    ports:
+      - 127.0.0.1:${SIGNAL_PORT:-8095}:8080
+    volumes:
+      - ${DATA1T_DIR:?}/signal_data:/home/.local/share/signal-cli
+    mem_limit: 256m
+    cpus: 0.5
+    restart: unless-stopped

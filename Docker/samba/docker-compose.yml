@@ -12,4 +12,9 @@ services:
     environment:
       - "TZ=Europe/Warsaw"
       - "SAMBA_LOG_LEVEL=0"
+    # 2026-11-08 (20 dni): teraz 166 MiB (procesy 2), szczyt 962 MiB - prawie
+    # wylacznie cache kopiowanych plikow, ktory limit po prostu przytnie
+    # cpus 2.0 - mniej spowalnia kopiowanie duzych plikow
+    mem_limit: 256m
+    cpus: 2.0
     restart: unless-stopped

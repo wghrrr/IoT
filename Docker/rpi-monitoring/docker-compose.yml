@@ -45,6 +45,9 @@ services:
       PORT: 9617
     networks:
       - rpimonitor_default
+    # 2026-11-08 (20 dni): teraz 12 MiB, szczyt 17 MiB
+    mem_limit: 32m
+    cpus: 0.2
     restart: unless-stopped
 
   grafana:

@@ -105,6 +105,7 @@ Każda usługa ma katalog `Docker/<katalog>/` z plikiem `docker-compose.yml`. Ws
 | [pyload-ng](#pyload-ng) | `pyload` | zatrzymana |
 | [radarr](#radarr) | `media` | zatrzymana |
 | [samba](#samba) | `samba` | aktywna |
+| [signal](#signal) | `signal` | aktywna |
 | [sonarr](#sonarr) | `media` | zatrzymana |
 | [transmission](#transmission) | `media` | zatrzymana |
 
@@ -254,6 +255,13 @@ Każda usługa ma katalog `Docker/<katalog>/` z plikiem `docker-compose.yml`. Ws
 
 ---
 
+### signal
+* bbernhard/signal-cli-rest-api:latest  
+* https://github.com/bbernhard/signal-cli-rest-api  
+* REST API do Signala: wysyłanie i odbieranie wiadomości z konta bota (osobny numer). Powiadomienia z Home Assistant (integracja Signal Messenger). API bez logowania, dlatego port tylko na `127.0.0.1`. W katalogu danych są klucze konta: kopia przez `backup-configs.sh`, nigdy do repo.
+
+---
+
 ### sonarr
 * lscr.io/linuxserver/sonarr:latest  
 * https://sonarr.tv  
@@ -273,10 +281,13 @@ Skrypty z katalogu `Docker/` (na RPi leżą w `~/Docker`) oraz narzędzia diagno
 | Skrypt | Opis |
 |---|---|
 | [Docker/upgrade.sh](Docker/upgrade.sh) | Aktualizuje jedną usługę, np. `./upgrade.sh homeassistant`: pobiera obrazy, przebudowuje stosy z `build:` (lemp), podmienia tylko zmienione kontenery i czyści nieużywane obrazy (`PRUNE=0` wyłącza czyszczenie) |
+| [Docker/apply.sh](Docker/apply.sh) | Stosuje zmiany z `docker-compose.yml` (limity, porty, zmienne) bez pobierania obrazów, np. `./apply.sh pi-hole`; odtwarza tylko zmienione kontenery, pokazuje limity przed i po |
 | [Docker/check-updates.sh](Docker/check-updates.sh) | Sprawdza, czy dla działających kontenerów są nowsze obrazy (niczego nie zmienia) |
 | [Docker/backup-configs.sh](Docker/backup-configs.sh) | Pakuje do zipa konfigurację usług (bez dużych danych) |
 | [Docker/rpi-monitoring/scripts/](Docker/rpi-monitoring/scripts/) | Usługa systemd z timerem, która sprawdza błędy USB i wystawia metryki dla node-exportera |
 | [scripts/rpi-health.sh](scripts/rpi-health.sh) | Szybki raport stanu systemu: load, RAM, swap, dyski, kontenery |
+| [scripts/mem-check.sh](scripts/mem-check.sh) | Pamięć kontenerów (tylko odczyt): teraz, procesy bez cache, **szczyt od startu** (cgroup v2), limit, dojścia do limitu i zabicia przez OOM; ostrzega przy braku limitu, procesach ≥ 80% limitu, OOM i restartach |
+| [scripts/signal-check.sh](scripts/signal-check.sh) | Przegląd bramki Signal (tylko odczyt): kontener, API i tryb, konto, port tylko na `127.0.0.1`, limity, uprawnienia i montowania, katalog z kluczami (dysk, właściciel, `700`), compose i `.env`, błędy w logach, kopie zapasowe; numery telefonów maskowane; `SEND_TO=` wysyła wiadomość testową |
 | [scripts/rpi-daily.sh](scripts/rpi-daily.sh) | Codzienny przegląd (tylko odczyt): USB/xHCI, mounty, rfkill, błędy kernela, SMART, miejsce, kontenery (OOM, restarty), karta SD, maskowane logi HA; na końcu podsumowanie problemów |
 | [scripts/disk-usage.sh](scripts/disk-usage.sh) | Co zajmuje miejsce na dyskach danych (tylko odczyt): katalogi, typy plików, rok modyfikacji, duże pliki, śmieci, duplikaty, usunięte, ale otwarte pliki, Docker; na końcu podsumowanie |
 | [scripts/dump-docker-configs.sh](scripts/dump-docker-configs.sh) | Wypisuje wszystkie pliki `docker-compose` z `~/Docker` |
@@ -316,6 +327,7 @@ Porty hosta (RPi). Usługi w `network_mode: host` używają swoich portów domy�
 | pyload | 8000 | zatrzymana |
 | rpi-monitoring | 3030 (grafana), 9090 (prometheus, z logowaniem) | cAdvisor, node-exporter i pihole-exporter nie wystawiają portów; Prometheus zbiera z nich metryki w sieci Dockera |
 | samba | 139, 445 | `network_mode: host` |
+| signal | `127.0.0.1:8095` (`SIGNAL_PORT`) | tylko z hosta: korzysta HA (`network_mode: host`) |
 
 Poza VPN żaden port nie powinien być wystawiony do internetu. Wszystkie wystawione panele wymagają logowania.
 

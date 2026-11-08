@@ -49,6 +49,10 @@ INCLUDE_PATHS=(
   # certyfikaty wszystkim klientom od nowa)
   "$DATA1T_DIR/hwdsl2_openvpn_data"
 
+  # Signal - klucze i stan konta bota (bez tego ponowna rejestracja numeru
+  # i nowe klucze; kopia zawiera sekrety, archiwum trzymac poza repo)
+  "$DATA1T_DIR/signal_data"
+
   # pi-hole - config + blocklisty, bez logow
   "$DATA1T_DIR/pihole_data/etc-pihole"
   "$DATA1T_DIR/pihole_data/etc-dnsmasq.d"

@@ -16,4 +16,8 @@ services:
     volumes:
       - '${DATA1T_DIR:?}/pihole_data/etc-pihole:/etc/pihole'
       - '${DATA1T_DIR:?}/pihole_data/etc-dnsmasq.d:/etc/dnsmasq.d'
+    # 2026-11-08 (20 dni): teraz 129 MiB (procesy 18), szczyt 523 MiB z cache;
+    # zapas na aktualizacje list (gravity) - to DNS calej sieci, OOM niedopuszczalny
+    mem_limit: 384m
+    cpus: 1.0
     restart: unless-stopped
